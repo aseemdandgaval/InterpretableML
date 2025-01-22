@@ -1,16 +1,14 @@
-import streamlit as st
 import shap
 import lime
-from lime.lime_tabular import LimeTabularExplainer
+import joblib
 import pandas as pd
 import numpy as np
-import joblib
 import seaborn as sns
 import xgboost as xgb
+import streamlit as st
 import streamlit.components.v1 as components
+from lime.lime_tabular import LimeTabularExplainer
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from imblearn.pipeline import Pipeline as imbPipeline
@@ -95,18 +93,19 @@ def main():
             X = X.astype(float)
             explainer = shap.Explainer(model)
             shap_values = explainer(X)
-
-            # Visualize SHAP values
             idx = st.slider("Select Test Instance", 0, len(X) - 1, 0)
-            st.write("SHAP Force Plot for a Single Prediction")
-            shap.force_plot(explainer.expected_value, shap_values[idx].values, X.iloc[idx], matplotlib=True, show=False)
-            st.pyplot(bbox_inches='tight')
-            st.write("SHAP Summary Plot")
-            shap.summary_plot(shap_values, X, show=False)
-            st.pyplot(bbox_inches='tight')
-            st.write("SHAP Bar Plot")
-            shap.summary_plot(shap_values, X, plot_type="bar", show=False)
-            st.pyplot(bbox_inches='tight')
+            
+            # Visualize SHAP values
+            if st.button("Explain Prediction"):
+                st.write("SHAP Force Plot for a Single Prediction")
+                fig = shap.force_plot(explainer.expected_value, shap_values[idx].values, X.iloc[idx], matplotlib=True, show=False)
+                st.pyplot(fig, bbox_inches='tight')
+                st.write("SHAP Summary Plot")
+                fig =shap.summary_plot(shap_values, X, show=False)
+                st.pyplot(fig, bbox_inches='tight')
+                st.write("SHAP Bar Plot")
+                fig =shap.summary_plot(shap_values, X, plot_type="bar", show=False)
+                st.pyplot(fig, bbox_inches='tight')
 
         elif method == "LIME":
             st.subheader("3. Interpretability using LIME")
@@ -125,26 +124,27 @@ def main():
             idx = st.slider("Select Test Instance", 0, len(X_test) - 1, 0)
 
             # Explain the prediction instance using LIME
-            explainer = lime.lime_tabular.LimeTabularExplainer(
-                X_train,
-                feature_names=list(X.columns),
-                class_names=target,
-                discretize_continuous=True,
-                )
-            exp = explainer.explain_instance(
-                X_test[idx],
-                model.predict_proba,
-                )
+            if st.button("Explain Prediction"):
+                explainer = lime.lime_tabular.LimeTabularExplainer(
+                    X_train,
+                    feature_names=list(X.columns),
+                    class_names=target,
+                    discretize_continuous=True,
+                    )
+                exp = explainer.explain_instance(
+                    X_test[idx],
+                    model.predict_proba,
+                    )
 
-            # Visualize the explanation
-            st.write("LIME Explanation")
-            exp.save_to_file('lime_explanation.html')
-            HtmlFile = open(f'lime_explanation.html', 'r', encoding='utf-8')
-            components.html(HtmlFile.read(), height=600)
-            st.write('True label:', labels[str(y_test[idx])])
-            st.write("Effect of Predictors")
-            exp.as_pyplot_figure()
-            st.pyplot(bbox_inches='tight')
+                # Visualize the explanation
+                st.write("LIME Explanation")
+                st.write('True label:', labels[str(y_test[idx])])
+                exp.save_to_file('lime_explanation.html')
+                HtmlFile = open(f'lime_explanation.html', 'r', encoding='utf-8')
+                components.html(HtmlFile.read(), height=600)
+                st.write("Effect of Predictors")
+                fig = exp.as_pyplot_figure()
+                st.pyplot(fig, bbox_inches='tight')
 
     # Perform different interpretability methods on the second dataset
     elif dataset == "Healthcare":
@@ -159,7 +159,6 @@ def main():
         model = loaded_models.get('Random Forest')
 
         idx = st.slider("Select Test Instance", 0, 24031, 0)  
-
 
         if method == "SHAP":
             st.subheader("3. Interpretability using SHAP")
@@ -240,8 +239,8 @@ def main():
             components.html(HtmlFile.read(), height=600)
             st.write('True label:', target[y_test.iloc[idx]])  
             st.write("Effect of Predictors")
-            exp.as_pyplot_figure()
-            st.pyplot(bbox_inches='tight')
+            fig = exp.as_pyplot_figure()
+            st.pyplot(fig, bbox_inches='tight')
 
 
 if __name__ == "__main__":

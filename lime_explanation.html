@@ -37089,25 +37089,25 @@
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_divCMDY19MOMSNYDWL"></div>
+        <div class="lime top_div" id="top_divLUEPD4PZ0RI278E"></div>
         
         <script>
-        var top_div = d3.select('#top_divCMDY19MOMSNYDWL').classed('lime top_div', true);
+        var top_div = d3.select('#top_divLUEPD4PZ0RI278E').classed('lime top_div', true);
         
             var pp_div = top_div.append('div')
                                 .classed('lime predict_proba', true);
             var pp_svg = pp_div.append('svg').style('width', '100%');
-            var pp = new lime.PredictProba(pp_svg, ["Rejected", "Approved"], [0.3389378035193841, 0.6610621964806159]);
+            var pp = new lime.PredictProba(pp_svg, ["Rejected", "Approved"], [0.47736841168957345, 0.5226315883104266]);
             
         
         var exp_div;
             var exp = new lime.Explanation(["Rejected", "Approved"]);
         
                 exp_div = top_div.append('div').classed('lime explanation', true);
-                exp.show([["14600000.00 < loan_amount <= 21600000.00", 0.04854008323139549], ["5100000.00 < income_annum <= 7500000.00", -0.04227681111776806], ["commercial_assets_value > 7500000.00", 0.035320368012993035], ["bank_asset_value > 7100000.00", 0.018877169095917027], ["cibil_score <= 449.00", 0.007541804847108861], ["no_of_dependents > 4.00", -0.007220676678504029], ["self_employed <= 0.00", -0.006614193114747257], ["0.00 < education <= 1.00", 0.005570920732602994], ["5500000.00 < residential_assets_value <= 11200000.00", -0.0054836431803274325], ["loan_term > 16.00", -0.00227752668755193]], 1, exp_div);
+                exp.show([["7800000.00 < loan_amount <= 14600000.00", -0.059348343369657705], ["2600000.00 < income_annum <= 5100000.00", 0.03451021580226451], ["commercial_assets_value <= 1300000.00", -0.021672440675564352], ["7500000.00 < luxury_assets_value <= 14700000.00", -0.009508258774551744], ["4600000.00 < bank_asset_value <= 7100000.00", 0.0044225267350305715], ["loan_term > 16.00", -0.0029725178561203695], ["602.00 < cibil_score <= 751.00", 0.0016828845445333333], ["1.00 < no_of_dependents <= 2.00", 0.001408044682262797], ["2100000.00 < residential_assets_value <= 5500000.00", -0.001312216115962938], ["0.00 < education <= 1.00", 0.0003263242416333022]], 1, exp_div);
                 
         var raw_div = top_div.append('div');
-            exp.show_raw_tabular([["loan_amount", "19700000.00", 0.04854008323139549], ["income_annum", "5400000.00", -0.04227681111776806], ["commercial_assets_value", "10000000.00", 0.035320368012993035], ["bank_asset_value", "7300000.00", 0.018877169095917027], ["cibil_score", "423.00", 0.007541804847108861], ["no_of_dependents", "5.00", -0.007220676678504029], ["self_employed", "0.00", -0.006614193114747257], ["education", "1.00", 0.005570920732602994], ["residential_assets_value", "6500000.00", -0.0054836431803274325], ["loan_term", "20.00", -0.00227752668755193]], 1, raw_div);
+            exp.show_raw_tabular([["loan_amount", "9800000.00", -0.059348343369657705], ["income_annum", "4400000.00", 0.03451021580226451], ["commercial_assets_value", "200000.00", -0.021672440675564352], ["luxury_assets_value", "8800000.00", -0.009508258774551744], ["bank_asset_value", "6400000.00", 0.0044225267350305715], ["loan_term", "18.00", -0.0029725178561203695], ["cibil_score", "712.00", 0.0016828845445333333], ["no_of_dependents", "2.00", 0.001408044682262797], ["residential_assets_value", "5400000.00", -0.001312216115962938], ["education", "1.00", 0.0003263242416333022]], 1, raw_div);
         
         </script>
         </body></html>
